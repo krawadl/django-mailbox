@@ -66,7 +66,9 @@ class Mailbox(models.Model):
         blank=True,
         null=True,
         default=None,
+       
     )
+    certificate = models.FileField(upload_to='certificates/', blank=True, null=True)
 
     from_email = models.CharField(
         _(u'From email'),
@@ -207,7 +209,8 @@ class Mailbox(models.Model):
             conn = Pop3Transport(
                 self.location,
                 port=self.port if self.port else None,
-                ssl=self.use_ssl
+                ssl=self.use_ssl,
+                certificate=self.certificate
             )
             conn.connect(self.username, self.password)
         elif self.type == 'maildir':
