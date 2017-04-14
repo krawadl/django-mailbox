@@ -17,9 +17,10 @@ class Pop3Transport(EmailTransport):
             self.transport = POP3
             if not self.port:
                 self.port = 110
-        
+                
+# Hardcoded, please change!        
         if certificate:
-            self.certfile = "./upload" + str(certificate)
+            self.certfile = "./upload/" + str(certificate)
         else:
             self.certfile = None
 
