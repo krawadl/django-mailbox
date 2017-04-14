@@ -6,7 +6,7 @@ from .base import EmailTransport, MessageParseError
 
 
 class Pop3Transport(EmailTransport):
-    def __init__(self, hostname, port=None, ssl=False):
+    def __init__(self, hostname, port=None, ssl=False, certificate=None):
         self.hostname = hostname
         self.port = port
         if ssl:
@@ -17,9 +17,14 @@ class Pop3Transport(EmailTransport):
             self.transport = POP3
             if not self.port:
                 self.port = 110
+        
+        if certificate:
+            self.certfile = "./upload" + str(certificate)
+        else:
+            self.certfile = None
 
     def connect(self, username, password):
-        self.server = self.transport(self.hostname, self.port)
+        self.server = self.transport(self.hostname, self.port, certfile=self.certfile)
         self.server.user(username)
         self.server.pass_(password)
 
